@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#8a1c55">
+<title>VastraKart – Demo Fashion Marketplace</title>
+<style>
+:root{--p:#8a1c55;--a:#e8730c;--g:#f7f3f6;--m:#6b6070;--ok:#15803d}
+*{box-sizing:border-box;margin:0}
+body{font:15px/1.45 system-ui,Roboto,"Segoe UI",sans-serif;color:#1f1720;background:#fff;padding-bottom:72px}
+a{color:var(--p);text-decoration:none}
+.demo{background:#fff4d6;color:#7a5200;font-size:12px;text-align:center;padding:4px 8px}
+header{position:sticky;top:0;z-index:5;background:#fff;display:flex;gap:10px;align-items:center;padding:8px 12px;border-bottom:1px solid #eee}
+.logo{font:800 21px Georgia,serif;color:var(--p)}.logo em{color:var(--a);font-style:normal}
+header input{flex:1;min-width:0;padding:10px 14px;border:1px solid #ddd;border-radius:99px;background:var(--g);font:inherit}
+.sell{font-weight:700;font-size:13px}
+main{max-width:1000px;margin:auto;padding:12px}
+h2{margin:6px 0 10px;font-family:Georgia,serif}h4{margin:12px 0 6px}
+.ban{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin-bottom:12px}
+.ban div{flex:0 0 88%;max-width:480px;scroll-snap-align:center;min-height:130px;border-radius:20px;padding:18px;color:#fff;display:flex;flex-direction:column;justify-content:center;cursor:pointer}
+.ban b{font:700 23px Georgia,serif}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px}
+.ch{border:1px solid #ddd;background:#fff;border-radius:99px;padding:7px 16px;font:inherit;white-space:nowrap;cursor:pointer}
+.ch.on{background:var(--p);color:#fff;border-color:var(--p)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(min-width:700px){.grid{grid-template-columns:repeat(4,1fr)}.pd{display:grid!important;grid-template-columns:1fr 1fr}}
+.pd{display:block;gap:20px}.pd>img{width:100%;border-radius:18px;aspect-ratio:3/4;object-fit:cover}
+.card{position:relative;border:1px solid #eee;border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 2px 8px #0001}
+.card img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;background:var(--g)}
+.hb{position:absolute;top:8px;right:8px;width:36px;height:36px;border-radius:50%;border:0;background:#fffd;font-size:19px;color:var(--p)}
+.ci{padding:8px 10px 10px;font-size:13px}.ci b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pr{font-weight:700;font-size:16px}.big{font-size:24px}s{color:var(--m);font-size:12px}.ok{color:var(--ok);font-weight:600;font-size:12px}.m,small{color:var(--m)}
+.dots i{display:inline-block;width:12px;height:12px;border-radius:50%;margin:4px 3px 0 0;border:1px solid #0002}
+.btn{display:inline-block;border:0;border-radius:12px;background:var(--p);color:#fff;font-weight:600;font-size:15px;font-family:inherit;padding:12px 18px;text-align:center;cursor:pointer}
+.btn.o{background:#fff;color:var(--p);border:1.5px solid var(--p)}.btn.sm{padding:7px 12px;font-size:13px}.btn.blk{display:block;width:100%;margin-top:12px}.btn:disabled{opacity:.4}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.row{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid #eee}
+.th{width:64px;height:80px;border-radius:10px;object-fit:cover;flex:none}
+.qt{display:flex;gap:6px;align-items:center}.qt button{width:34px;height:34px;border:1px solid #ddd;background:#fff;border-radius:8px;font-size:16px}
+.sum{display:flex;justify-content:space-between;font-size:18px;padding:14px 0}
+.fm{display:grid;gap:10px;max-width:480px}
+.fm label{font-weight:600;font-size:13px}
+input,select,textarea{width:100%;padding:11px 12px;border:1px solid #ccc;border-radius:10px;font:inherit;background:#fff}
+.note{background:var(--g);border-radius:12px;padding:12px;margin:8px 0;font-size:14px}
+.warn{background:#fff4d6;color:#7a5200}
+.box{border:1px solid #eee;border-radius:14px;padding:12px;margin-bottom:10px}
+.pill{display:inline-block;font-size:11px;font-weight:700;padding:2px 9px;border-radius:99px;background:#eee;text-transform:capitalize}
+.pill.approved{background:#dcfce7;color:#166534}.pill.pending{background:#fef3c7;color:#92400e}.pill.rejected{background:#fee2e2;color:#991b1b}
+.stp{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin:10px 0;font-size:11px;text-align:center}
+.stp span{border-top:4px solid #e5e5e5;padding-top:4px;color:var(--m)}.stp span.on{border-color:var(--ok);color:#1f1720;font-weight:600}
+.stat{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}.stat div{background:var(--g);border-radius:12px;padding:10px;text-align:center}.stat b{display:block;font-size:18px}
+#nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:#fff;border-top:1px solid #ddd;z-index:9;padding-bottom:env(safe-area-inset-bottom)}
+#nav a{flex:1;text-align:center;padding:7px 0;font-size:19px;color:var(--m);position:relative;line-height:1.2}
+#nav a span{display:block;font-size:11px}#nav a.on{color:var(--p);font-weight:700}
+#cb{position:absolute;top:2px;left:55%;background:var(--a);color:#fff;font-size:10px;border-radius:99px;padding:0 6px}#cb:empty{display:none}
+#toast{position:fixed;bottom:84px;left:50%;transform:translateX(-50%) translateY(20px);background:#1f1720;color:#fff;padding:10px 16px;border-radius:99px;opacity:0;transition:.25s;z-index:20;font-size:14px;pointer-events:none;max-width:90%;text-align:center}
+#toast.on{opacity:1;transform:translateX(-50%)}
+footer{text-align:center;font-size:12px;color:var(--m);padding:20px 12px}
+.lk{display:block;padding:14px;border:1px solid #eee;border-radius:12px;margin-bottom:8px;font-weight:600}
+</style></head><body>
+<div class="demo">DEMO ONLY – no real payments, orders or accounts. Sample data stays in this browser.</div>
+<header><a class="logo" href="#/">Vastra<em>Kart</em></a><input id="s" type="search" placeholder="Search kurtas, shirts, kids wear…" oninput="srch(this.value)"><a class="sell" href="#/seller">Sell</a></header>
+<main id="app"></main>
+<footer>VastraKart · DEMO prototype · <a href="#/about">About &amp; limits</a></footer>
+<nav id="nav"><a data-r="home" href="#/">🏠<span>Home</span></a><a data-r="wish" href="#/wish">♡<span>Wishlist</span></a><a data-r="cart" href="#/cart">🛒<span>Cart</span><b id="cb"></b></a><a data-r="orders" href="#/orders">📦<span>Orders</span></a><a data-r="account" href="#/account">👤<span>Account</span></a></nav>
+<div id="toast"></div>
+<noscript>Please enable JavaScript to use this demo.</noscript>
+<script>
+const $=s=>document.querySelector(s),E=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const H=s=>{let h=5381;for(const c of s)h=(h*33^c.charCodeAt(0))>>>0;return h.toString(36)};
+const ld=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){toast('Storage full – try a smaller image')}};
+const inr=n=>'₹'+Number(n).toLocaleString('en-IN'),off=p=>Math.round(100-p.price*100/p.mrp);
+const CC={Teal:'#0f766e',Maroon:'#7f1d1d',Navy:'#1e3a8a',Mustard:'#ca8a04',Pink:'#db2777',Black:'#111827',White:'#d1d5db',Green:'#15803d',Blue:'#2563eb',Red:'#dc2626',Grey:'#6b7280'};
+const STG=['Placed','Packed','Shipped','Out for delivery','Delivered'];
+function seed(){const pw=H('demo123'),P=[
+['Floral Anarkali Kurta','Women',899,1799,'S,M,L,XL','Teal,Maroon,Pink','👗',25],['Banarasi Style Saree','Women',1299,2999,'Free Size','Maroon,Mustard,Green','🥻',12],
+['Palazzo Co-ord Set','Women',749,1499,'S,M,L','Navy,Pink','👚',30],['Linen Casual Shirt','Men',649,1299,'M,L,XL,XXL','Blue,White,Green','👔',40],
+['Festive Nehru Jacket','Men',1499,2999,'M,L,XL','Navy,Maroon','🧥',15],['Slim Fit Jeans','Men',899,1799,'28,30,32,34','Blue,Black','👖',50],
+['Cotton Polo T-Shirt','Men',399,799,'S,M,L,XL','Red,Navy,Grey','👕',60],['Kids Ethnic Kurta Set','Kids',549,1099,'2-3Y,4-5Y,6-7Y','Mustard,Teal','🧒',20],
+['Girls Party Frock','Kids',699,1399,'2-3Y,4-5Y,6-7Y','Pink,Red','👗',18],['Boys Denim Shorts','Kids',349,699,'4-5Y,6-7Y,8-9Y','Blue,Black','🩳',35]];
+const pr=P.map((a,i)=>({id:'p'+(i+1),sid:'s1',name:a[0],cat:a[1],price:a[2],mrp:a[3],sizes:a[4].split(','),colors:a[5].split(','),em:a[6],stock:a[7],status:'approved',img:''}));
+pr.push({id:'p11',sid:'s1',name:'Printed Maxi Dress',cat:'Women',price:999,mrp:1999,sizes:['S','M','L'],colors:['Green'],em:'👗',stock:10,status:'pending',img:''},{id:'p12',sid:'s2',name:'Silk Dupatta',cat:'Women',price:499,mrp:999,sizes:['Free Size'],colors:['Pink'],em:'🧣',stock:20,status:'pending',img:''});
+return{commission:10,users:[{id:'u1',name:'Demo Customer',email:'demo@vastrakart.test',role:'customer',pw},{id:'u2',name:'Asha Verma',email:'seller@vastrakart.test',role:'seller',pw},{id:'u3',name:'Rahul Shah',email:'new@vastrakart.test',role:'seller',pw}],
+sellers:[{id:'s1',uid:'u2',shop:'Jaipur Threads',city:'Jaipur',status:'approved'},{id:'s2',uid:'u3',shop:'Surat Silks',city:'Surat',status:'pending'}],products:pr,
+orders:[{id:'VK1000001',uid:'u1',items:[{id:'p1',n:'Floral Anarkali Kurta',sid:'s1',pr:899,q:1,s:'M',c:'Teal'}],total:899,addr:'Demo Customer, 12 MG Road, Delhi - 110001 (📞 9876543210)',pay:'COD (DEMO)',st:2,ts:Date.now()-172800000}]}}
+let D=ld('vk_db',null);if(!D){D=seed();sv('vk_db',D)}
+let cart=ld('vk_cart',[]),wish=ld('vk_wish',[]),me=ld('vk_me',null),q='',cat='All',next='/',sel={},ed=null,pimg='',tab='s';
+const save=()=>sv('vk_db',D),user=()=>D.users.find(u=>u.id===me),shop=()=>D.sellers.find(s=>s.uid===me),go=h=>location.hash='#'+h;
+const live=p=>p.status==='approved'&&(D.sellers.find(s=>s.id===p.sid)||{}).status==='approved';
+const art=(p,c)=>p.img||'data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${CC[c||p.colors[0]]||'#8a1c55'}"/><stop offset="1" stop-color="#f8e6c4"/></linearGradient></defs><rect width="300" height="400" fill="url(#g)"/><text x="150" y="235" font-size="130" text-anchor="middle">${p.em}</text></svg>`);
+let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),2600)}
+const upd=()=>$('#cb').textContent=cart.reduce((a,c)=>a+c.q,0)||'';
+const ci=()=>cart.map((c,i)=>({...c,i,p:D.products.find(p=>p.id===c.id)})).filter(x=>x.p),tot=()=>ci().reduce((a,x)=>a+x.p.price*x.q,0);
+const nf=()=>'<p class="note">Page not found. <a href="#/">Go home</a></p>';
+const steps=s=>`<div class="stp">${STG.map((t,i)=>`<span class="${i<=s?'on':''}">${t}</span>`).join('')}</div>`;
+const card=p=>`<div class="card"><a href="#/p/${p.id}"><img loading="lazy" alt="${E(p.name)}" src="${art(p)}"></a><button class="hb" aria-label="Wishlist" onclick="tw('${p.id}',this)">${wish.includes(p.id)?'♥':'♡'}</button><div class="ci"><b>${E(p.name)}</b><span class="pr">${inr(p.price)}</span> <s>${inr(p.mrp)}</s> <span class="ok">${off(p)}% off</span><br><small>${p.sizes.map(E).join(' · ')}</small><div class="dots">${p.colors.map(c=>`<i title="${E(c)}" style="background:${CC[c]||'#999'}"></i>`).join('')}</div></div></div>`;
+function chips(){$('#chips').innerHTML=['All','Women','Men','Kids'].map(c=>`<button class="ch${c===cat?' on':''}" onclick="setCat('${c}')">${c}</button>`).join('')}
+function grid(){const l=D.products.filter(p=>live(p)&&(cat==='All'||p.cat===cat)&&(p.name+' '+p.cat).toLowerCase().includes(q.toLowerCase()));$('#grid').innerHTML=l.length?l.map(card).join(''):'<p class="note">No products match. Try another search.</p>'}
+const setCat=c=>{cat=c;chips();grid()};
+function srch(v){q=v;const h=location.hash;if(h&&h!=='#/')go('/');else grid()}
+function tw(id,el){const i=wish.indexOf(id);i<0?wish.push(id):wish.splice(i,1);sv('vk_wish',wish);if(location.hash==='#/wish')render(1);else el.textContent=i<0?'♥':'♡';toast(i<0?'Added to wishlist':'Removed from wishlist')}
+const V={};
+V.home=()=>`<div class="ban"><div style="background:linear-gradient(135deg,#8a1c55,#e8730c)" onclick="setCat('Women')"><small style="color:#fde7c8">Festive edit</small><b>Women's ethnic wear</b>Up to 60% off – tap to shop</div><div style="background:linear-gradient(135deg,#1e3a8a,#0f766e)" onclick="setCat('Men')"><small style="color:#cfe">New season</small><b>Men's kurtas &amp; shirts</b>Everyday style from ₹399</div><div style="background:linear-gradient(135deg,#ca8a04,#db2777)" onclick="setCat('Kids')"><small style="color:#fff3c4">Little ones</small><b>Kids' party &amp; play</b>Soft fabrics, bright colours</div></div><div id="chips" class="chips"></div><div id="grid" class="grid"></div>`;
+V.p=id=>{const p=D.products.find(x=>x.id===id);if(!p||!live(p))return nf();sel={p,s:p.sizes[0],c:p.colors[0]};const sh=D.sellers.find(s=>s.id===p.sid);const opt=(k,a)=>a.map((v,i)=>`<button class="ch${i?'':' on'}" data-v="${E(v)}" onclick="pick('${k}',this)">${E(v)}</button>`).join('');
+return `<div class="pd"><img id="pimg" src="${art(p)}" alt="${E(p.name)}"><div><a href="#/">‹ Back to shop</a><h2>${E(p.name)}</h2><p><span class="pr big">${inr(p.price)}</span> <s>${inr(p.mrp)}</s> <span class="ok">${off(p)}% off</span></p><p class="m">${p.cat} · Sold by ${E(sh.shop)} · ${p.stock?p.stock+' in stock':'Out of stock'}</p><h4>Size</h4><div class="chips">${opt('s',p.sizes)}</div><h4>Colour</h4><div class="chips">${opt('c',p.colors)}</div><div class="bar"><button class="btn" onclick="add()" ${p.stock?'':'disabled'}>Add to cart</button><button class="btn o" onclick="add(1)" ${p.stock?'':'disabled'}>Buy now</button><button class="btn o" aria-label="Wishlist" onclick="tw('${p.id}',this)">${wish.includes(p.id)?'♥':'♡'}</button></div><p class="note">Prices and offers are sample data for this demo.</p></div></div>`};
+function pick(k,el){sel[k]=el.dataset.v;[...el.parentNode.children].forEach(b=>b.classList.toggle('on',b===el));if(k==='c')$('#pimg').src=art(sel.p,sel.c)}
+function add(buy){const p=sel.p,x=cart.find(c=>c.id===p.id&&c.s===sel.s&&c.c===sel.c);x?x.q=Math.min(x.q+1,p.stock):cart.push({id:p.id,s:sel.s,c:sel.c,q:1});sv('vk_cart',cart);upd();toast('Added to cart');if(buy)go('/cart')}
+V.wish=()=>{const l=D.products.filter(p=>wish.includes(p.id)&&live(p));return `<h2>Wishlist</h2>${l.length?`<div class="grid">${l.map(card).join('')}</div>`:'<p class="note">Nothing saved yet. Tap ♡ on a product. <a href="#/">Browse</a></p>'}`};
+V.cart=()=>{const l=ci();if(!l.length)return '<h2>Your cart</h2><p class="note">Your cart is empty. <a href="#/">Start shopping</a></p>';
+return `<h2>Your cart</h2>${l.map(x=>`<div class="row"><img class="th" alt="" src="${art(x.p,x.c)}"><div style="flex:1"><b>${E(x.p.name)}</b><br><small>Size ${E(x.s)} · ${E(x.c)}</small><br><b>${inr(x.p.price)}</b></div><div class="qt"><button aria-label="Less" onclick="qty(${x.i},-1)">−</button><span>${x.q}</span><button aria-label="More" onclick="qty(${x.i},1)">+</button><button aria-label="Remove" onclick="rm(${x.i})">🗑</button></div></div>`).join('')}<div class="sum"><span>Total</span><b>${inr(tot())}</b></div><a class="btn blk" href="#/checkout">Checkout (DEMO)</a>`};
+function qty(i,d){const p=D.products.find(p=>p.id===cart[i].id);cart[i].q=Math.max(1,Math.min(cart[i].q+d,p.stock||1));sv('vk_cart',cart);render(1)}
+function rm(i){cart.splice(i,1);sv('vk_cart',cart);render(1)}
+V.checkout=()=>{if(!me){next='/checkout';return V.login()}if(!ci().length)return V.cart();const u=user();
+return `<h2>Checkout <span class="pill pending">DEMO</span></h2><p class="note warn"><b>DEMO checkout.</b> No payment is taken and none is processed. Never enter card, UPI, bank or OTP details here.</p><form class="fm" onsubmit="place(event)"><label>Full name</label><input name="nm" required value="${E(u.name)}"><label>Mobile number</label><input name="ph" required inputmode="numeric" maxlength="10" placeholder="10-digit number"><label>Delivery address</label><textarea name="ad" rows="2" required placeholder="House no., street, area"></textarea><label>City</label><input name="city" required><label>Pincode</label><input name="pin" required inputmode="numeric" maxlength="6" placeholder="6-digit pincode"><label>Payment method (DEMO only)</label><select name="pay"><option>Cash on delivery (DEMO)</option><option>Online payment (DEMO – simulated, no money moves)</option></select><div class="sum"><span>Order total</span><b>${inr(tot())}</b></div><button class="btn">Place DEMO order</button></form>`};
+function place(e){e.preventDefault();const f=e.target,v=n=>f[n].value.trim();
+if(!/^[6-9]\d{9}$/.test(v('ph')))return toast('Enter a valid 10-digit mobile number');if(!/^[1-9]\d{5}$/.test(v('pin')))return toast('Enter a valid 6-digit pincode');
+const l=ci(),items=l.map(x=>({id:x.id,n:x.p.name,sid:x.p.sid,pr:x.p.price,q:x.q,s:x.s,c:x.c}));l.forEach(x=>x.p.stock=Math.max(0,x.p.stock-x.q));
+D.orders.unshift({id:'VK'+Date.now().toString().slice(-7),uid:me,items,total:items.reduce((a,i)=>a+i.pr*i.q,0),addr:`${v('nm')}, ${v('ad')}, ${v('city')} - ${v('pin')} (📞 ${v('ph')})`,pay:v('pay'),st:0,ts:Date.now()});
+save();cart=[];sv('vk_cart',cart);upd();toast('DEMO order created – no payment was taken');go('/orders')}
+V.orders=()=>{if(!me){next='/orders';return V.login()}const l=D.orders.filter(o=>o.uid===me);
+return `<h2>My orders <span class="pill pending">DEMO</span></h2>${l.length?l.map(o=>`<div class="box"><b>#${o.id}</b> · ${new Date(o.ts).toLocaleDateString('en-IN')}<br>${o.items.map(i=>`${E(i.n)} (${E(i.s)}, ${E(i.c)}) ×${i.q}`).join('<br>')}<p><b>${inr(o.total)}</b> · ${E(o.pay)}</p><small>${E(o.addr)}</small>${steps(o.st)}${o.st<4?`<button class="btn sm o" onclick="adv('${o.id}')">Advance tracking (DEMO)</button>`:'<small>Delivered (simulated)</small>'}</div>`).join(''):'<p class="note">No orders yet. <a href="#/">Shop now</a></p>'}`};
+function adv(id){const o=D.orders.find(o=>o.id===id);if(o.st<4)o.st++;save();render(1);toast('Tracking: '+STG[o.st]+' (simulated)')}
+V.login=()=>`<h2>Log in</h2><p class="note">Demo accounts (password <b>demo123</b>):<br>Customer: demo@vastrakart.test<br>Seller: seller@vastrakart.test<br>Use throwaway passwords only – never a real one.</p><form class="fm" onsubmit="login(event)"><input name="em" type="email" placeholder="Email" required><input name="pw" type="password" placeholder="Password" required><button class="btn">Log in</button></form><p style="margin-top:12px"><a href="#/register">Create customer account</a> · <a href="#/sreg">Register as seller</a></p>`;
+function login(e){e.preventDefault();const f=e.target,u=D.users.find(x=>x.email===f.em.value.trim().toLowerCase()&&x.pw===H(f.pw.value));if(!u)return toast('Wrong email or password');me=u.id;sv('vk_me',me);toast('Logged in (demo)');const n=next==='/'&&u.role==='seller'?'/seller':next;next='/';go(n)}
+const regForm=sl=>`<h2>${sl?'Seller registration':'Create account'}</h2><p class="note">Demo only. Data is saved in this browser, not on a server. Use a throwaway password.</p><form class="fm" onsubmit="reg(event,${sl})"><input name="nm" placeholder="Your name" required><input name="em" type="email" placeholder="Email" required><input name="pw" type="password" placeholder="Password (6+ characters)" required>${sl?'<input name="shop" placeholder="Shop name" required><input name="city" placeholder="City" required>':''}<button class="btn">${sl?'Submit seller application':'Create account'}</button></form><p style="margin-top:12px"><a href="#/login">Already registered? Log in</a></p>`;
+V.register=()=>regForm(0);V.sreg=()=>regForm(1);
+function reg(e,sl){e.preventDefault();const f=e.target,em=f.em.value.trim().toLowerCase();if(D.users.some(x=>x.email===em))return toast('That email is already registered');if(f.pw.value.length<6)return toast('Password needs 6+ characters');
+const u={id:'u'+Date.now(),name:f.nm.value.trim(),email:em,role:sl?'seller':'customer',pw:H(f.pw.value)};D.users.push(u);if(sl)D.sellers.push({id:'s'+Date.now(),uid:u.id,shop:f.shop.value.trim(),city:f.city.value.trim(),status:'pending'});
+save();me=u.id;sv('vk_me',me);toast(sl?'Application sent – pending admin approval':'Account created (demo)');go(sl?'/seller':'/')}
+function logout(){me=null;sv('vk_me',null);toast('Logged out');go('/')}
+V.account=()=>{if(!me){next='/account';return V.login()}const u=user();return `<h2>Hello, ${E(u.name)}</h2><p class="note">${E(u.email)} · ${u.role} account (demo)</p><a class="lk" href="#/orders">📦 My orders</a><a class="lk" href="#/wish">♡ Wishlist</a><a class="lk" href="#/seller">🏪 ${u.role==='seller'?'Seller dashboard':'Sell on VastraKart'}</a><a class="lk" href="#/about">ℹ️ About this prototype</a><button class="btn o blk" onclick="logout()">Log out</button>`};
+V.seller=()=>{if(!me){next='/seller';return V.login()}const s=shop();if(!s)return '<h2>Sell on VastraKart</h2><p class="note">Your account has no shop yet.</p><a class="btn" href="#/sreg">Register as a seller</a>';
+const mine=D.products.filter(p=>p.sid===s.id),ord=D.orders.filter(o=>o.items.some(i=>i.sid===s.id)),e=D.products.find(p=>p.id===ed&&p.sid===s.id)||{},sales=ord.reduce((a,o)=>a+o.items.filter(i=>i.sid===s.id).reduce((b,i)=>b+i.pr*i.q,0),0);
+const msg={pending:'Your shop is waiting for admin approval. You can’t list products until it is approved.',rejected:'Your application was rejected in this demo. Register again with a different account.',approved:'Your shop is approved. New and edited products need admin approval before customers see them.'}[s.status];
+return `<h2>${E(s.shop)}</h2><p>${E(s.city)} · <span class="pill ${s.status}">${s.status}</span></p><p class="note">${msg}</p><div class="stat"><div><b>${mine.length}</b>Products</div><div><b>${ord.length}</b>Orders</div><div><b>${inr(Math.round(sales*(100-D.commission)/100))}</b>Est. earnings</div></div>
+${s.status==='approved'?`<h4>${e.id?'Edit product':'Add product'}</h4><form class="fm" onsubmit="sp(event)"><input name="nm" placeholder="Product name" required value="${E(e.name)}"><select name="ct">${['Women','Men','Kids'].map(c=>`<option${e.cat===c?' selected':''}>${c}</option>`).join('')}</select><input name="pr" type="number" min="1" placeholder="Selling price ₹" required value="${e.price??''}"><input name="mrp" type="number" min="1" placeholder="MRP ₹" required value="${e.mrp??''}"><input name="sz" placeholder="Sizes, comma separated (S,M,L)" required value="${E((e.sizes||[]).join(','))}"><input name="cl" placeholder="Colours, comma separated (Teal,Pink)" required value="${E((e.colors||[]).join(','))}"><input name="st" type="number" min="0" placeholder="Stock" required value="${e.stock??''}"><label>Product photo (from your phone)</label><input type="file" accept="image/*" onchange="up(this)"><img id="pv" class="th" style="width:90px;height:110px" alt="" ${e.img?`src="${e.img}"`:'hidden'}><div class="bar"><button class="btn">${e.id?'Save changes':'Add product'}</button>${e.id?'<button type="button" class="btn o" onclick="ed=null;pimg=\'\';render(1)">Cancel</button>':''}</div></form>`:''}
+<h4>My products</h4>${mine.length?mine.map(p=>`<div class="row"><img class="th" alt="" src="${art(p)}"><div style="flex:1"><b>${E(p.name)}</b><br><small>${inr(p.price)} · stock ${p.stock} · ${p.sizes.map(E).join('/')}</small><br><span class="pill ${p.status}">${p.status}</span></div><div class="qt"><button aria-label="Edit" onclick="ep('${p.id}')">✎</button><button aria-label="Remove" onclick="dp('${p.id}')">🗑</button></div></div>`).join(''):'<p class="note">No products yet.</p>'}
+<h4>Sample orders</h4>${ord.length?ord.map(o=>`<div class="box"><b>#${o.id}</b> · ${inr(o.items.filter(i=>i.sid===s.id).reduce((a,i)=>a+i.pr*i.q,0))}<br><small>${o.items.filter(i=>i.sid===s.id).map(i=>`${E(i.n)} ×${i.q}`).join(', ')}</small><select onchange="setSt('${o.id}',this.value)">${STG.map((t,i)=>`<option value="${i}"${o.st===i?' selected':''}>${t}</option>`).join('')}</select></div>`).join(''):'<p class="note">No orders yet. Place a DEMO order as a customer to see it here.</p>'}`};
+function up(i){const f=i.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,480/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);pimg=c.toDataURL('image/jpeg',.7);$('#pv').src=pimg;$('#pv').hidden=false};im.src=r.result};r.readAsDataURL(f)}
+function sp(e){e.preventDefault();const f=e.target,L=x=>f[x].value.split(',').map(t=>t.trim()).filter(Boolean),pr=+f.pr.value,mrp=+f.mrp.value;if(!(pr>0)||mrp<pr)return toast('MRP must be at least the selling price');
+const d={name:f.nm.value.trim(),cat:f.ct.value,price:pr,mrp,sizes:L('sz'),colors:L('cl'),stock:Math.max(0,+f.st.value|0),status:'pending'};if(!d.sizes.length||!d.colors.length)return toast('Add at least one size and colour');
+const old=D.products.find(p=>p.id===ed);if(old){Object.assign(old,d);if(pimg)old.img=pimg}else D.products.push({...d,em:{Men:'👕',Women:'👗',Kids:'🧒'}[d.cat],id:'p'+Date.now(),sid:shop().id,img:pimg});
+ed=null;pimg='';save();toast('Saved – sent for admin approval');render(1)}
+const ep=id=>{ed=id;pimg='';render()},dp=id=>{if(!confirm('Remove this product?'))return;D.products=D.products.filter(p=>p.id!==id);cart=cart.filter(c=>c.id!==id);sv('vk_cart',cart);save();toast('Product removed');render(1)};
+function setSt(id,v){D.orders.find(o=>o.id===id).st=+v;save();toast('Order status updated (demo)')}
+const AD={s:()=>D.sellers.map(s=>{const u=D.users.find(x=>x.id===s.uid)||{};return `<div class="box"><b>${E(s.shop)}</b> · ${E(s.city)} <span class="pill ${s.status}">${s.status}</span><br><small>${E(u.name)} · ${E(u.email)}</small><div class="bar"><button class="btn sm" onclick="ss('${s.id}','approved')">Approve</button><button class="btn sm o" onclick="ss('${s.id}','rejected')">Reject</button></div></div>`}).join(''),
+p:()=>D.products.map(p=>`<div class="row"><img class="th" alt="" src="${art(p)}"><div style="flex:1"><b>${E(p.name)}</b><br><small>${inr(p.price)} · ${E((D.sellers.find(s=>s.id===p.sid)||{}).shop)} · stock ${p.stock}</small><br><span class="pill ${p.status}">${p.status}</span></div><div class="qt"><button aria-label="Approve" onclick="ps('${p.id}','approved')">✓</button><button aria-label="Reject" onclick="ps('${p.id}','rejected')">✕</button></div></div>`).join(''),
+o:()=>D.orders.length?D.orders.map(o=>`<div class="box"><b>#${o.id}</b> · ${inr(o.total)} · ${STG[o.st]}<br><small>${o.items.map(i=>`${E(i.n)} ×${i.q}`).join(', ')}<br>Platform commission (${D.commission}%): ${inr(Math.round(o.total*D.commission)/100)} – sample figure</small></div>`).join(''):'<p class="note">No orders yet.</p>',
+c:()=>`<form class="fm" onsubmit="setC(event)"><label>Sample commission % (0–50)</label><input name="cm" type="number" min="0" max="50" step="0.5" value="${D.commission}" required><button class="btn">Save commission</button></form><div class="bar"><button class="btn o" onclick="sessionStorage.removeItem('vk_a');render(1)">Lock admin</button><button class="btn o" onclick="resetAll()">Reset all demo data</button></div>`};
+V.admin=()=>{if(sessionStorage.getItem('vk_a')!=='1'){const has=localStorage.getItem('vk_pin');return `<h2>Demo admin</h2><p class="note warn">Demo-only gate. A PIN saved in this browser is <b>not real security</b> – anyone with access to the device or the page code can bypass it. A real marketplace needs server-side admin authentication. This page is not linked from the shop.</p><form class="fm" onsubmit="adm(event)"><label>${has?'Enter':'Create'} demo admin PIN (4–8 digits)</label><input name="pn" type="password" inputmode="numeric" pattern="\\d{4,8}" required><button class="btn">${has?'Unlock admin':'Set PIN and unlock'}</button></form>`}
+return `<h2>Admin dashboard <span class="pill pending">DEMO</span></h2><div class="chips">${[['s','Sellers'],['p','Products'],['o','Orders'],['c','Settings']].map(([k,t])=>`<button class="ch${tab===k?' on':''}" onclick="tab='${k}';render(1)">${t}</button>`).join('')}</div>${AD[tab]()}`};
+function adm(e){e.preventDefault();const v=e.target.pn.value;if(!localStorage.getItem('vk_pin'))localStorage.setItem('vk_pin',H(v));else if(localStorage.getItem('vk_pin')!==H(v))return toast('Wrong PIN');sessionStorage.setItem('vk_a','1');render()}
+const ss=(id,st)=>{D.sellers.find(s=>s.id===id).status=st;save();toast('Seller '+st);render(1)},ps=(id,st)=>{D.products.find(p=>p.id===id).status=st;save();toast('Product '+st);render(1)};
+function setC(e){e.preventDefault();const v=+e.target.cm.value;if(!(v>=0&&v<=50))return toast('Enter 0–50');D.commission=v;save();toast('Commission saved');render(1)}
+function resetAll(){if(!confirm('Erase all demo data in this browser?'))return;['vk_db','vk_cart','vk_wish','vk_me','vk_pin'].forEach(k=>localStorage.removeItem(k));sessionStorage.clear();location.hash='#/';location.reload()}
+V.about=()=>`<h2>About this prototype</h2><div class="note"><b>VastraKart is a demo.</b> It is original, not affiliated with any real marketplace.</div><div class="note warn"><b>Payments &amp; orders:</b> checkout, payment and order tracking are simulated. No payment is collected or processed, and no real order exists.</div><div class="note"><b>Why localStorage is only a prototype:</b> everything (accounts, products, carts, orders) lives only in this browser on this device. There is no shared database, so a customer, seller and admin on different phones never see each other's data. Anyone with the device can read or edit it, "passwords" and the admin PIN are only lightly scrambled in the browser, and clearing site data erases everything. Do not use real passwords or personal data.</div><div class="note"><b>Going live needs:</b> a backend with secure authentication, a real database, server-side admin roles, seller KYC, a payment gateway verified on the server, and tax/legal compliance.</div><div class="note"><b>Seller photos</b> are resized and kept in localStorage (about 5 MB total). <b>Demo admin:</b> open this page's address with <code>#/admin</code> at the end.</div><a class="btn" href="#/">Back to shop</a>`;
+function nav(r){const m={home:'home',p:'home',wish:'wish',cart:'cart',checkout:'cart',orders:'orders'}[r]||'account';document.querySelectorAll('#nav a').forEach(a=>a.classList.toggle('on',a.dataset.r===m))}
+function render(k){const h=location.hash.slice(2).split('/'),r=h[0]||'home';$('#app').innerHTML=(V[r]||nf)(h[1]);if(r==='home'){chips();grid()}if(!k)scrollTo(0,0);nav(r);upd()}
+addEventListener('hashchange',()=>render());render();
+</script></body></html>
